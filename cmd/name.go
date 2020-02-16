@@ -41,7 +41,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fstatus, _ := cmd.Flags().GetBool("copy")
-		getFullName(fstatus)
+		fmt.Println(getFullName(fstatus))
 	},
 }
 
@@ -92,16 +92,16 @@ func getRandomLine(file *os.File) string {
 	
 }
 
-func getFullName(copyFlag bool) {
+func getFullName(copyFlag bool) string {
 	var fullName strings.Builder
 	fullName.WriteString(getFirstName())
 	fullName.WriteString(" ")
 	fullName.WriteString(getSurname())
 
-	fmt.Println(fullName.String())
 	if copyFlag == true {
 		clipboard.WriteAll(fullName.String())
 	}
+	return fullName.String()
 }
 
 func toClipboard(input []byte) {
