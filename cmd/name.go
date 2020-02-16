@@ -61,10 +61,16 @@ func init() {
 	nameCmd.Flags().BoolP("copy", "c", false, "Copy name to clipboard")
 }
 
-func check(e error) {
-	if e != nil {
-		panic(e)
+func getFullName(copyFlag bool) string {
+	var fullName strings.Builder
+	fullName.WriteString(getFirstName())
+	fullName.WriteString(" ")
+	fullName.WriteString(getSurname())
+
+	if copyFlag == true {
+		clipboard.WriteAll(fullName.String())
 	}
+	return fullName.String()
 }
 
 func getRandomLine(file *os.File) string {
@@ -92,17 +98,6 @@ func getRandomLine(file *os.File) string {
 	
 }
 
-func getFullName(copyFlag bool) string {
-	var fullName strings.Builder
-	fullName.WriteString(getFirstName())
-	fullName.WriteString(" ")
-	fullName.WriteString(getSurname())
-
-	if copyFlag == true {
-		clipboard.WriteAll(fullName.String())
-	}
-	return fullName.String()
-}
 
 func toClipboard(input []byte) {
 	var copyCmd *exec.Cmd
@@ -152,4 +147,10 @@ func getSurname() string {
 	surname = getRandomLine(file)
 
 	return surname
+}
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
 }
